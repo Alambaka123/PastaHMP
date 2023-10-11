@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>list</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title size="large">list</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="content">
+    <ion-row>
+      <ion-title>Product List Per : {{today_ind()}}</ion-title>
+      <ion-button (click)="goYesterday()" [disabled]="is5daysago">Previous Date</ion-button>
+      <ion-button (click)="goTomorrow()" [disabled]="istoday">Tomorrow Date</ion-button>
+    </ion-row>
+
+    <ion-row>
+      <ion-input (keyup)="checkValid()" label="Masukkan kode : " [(ngModel)]="couponcode"></ion-input>
+      <span [ngStyle]="{'color':textcolor}">
+        Coupon Code {{couponcode}} is {{strvalid}} you get {{discount}}% discount
+      </span>
+    </ion-row>
+    <ion-row>
+      <ion-img *ngIf="strvalid=='Valid'" src="https://absen.titip.in/congratulation.gif"></ion-img>
+    </ion-row>
+    <ion-row>
+      <ul>
+        <li *ngFor="let product of products">
+          <h2>{{ product.name }}</h2>
+          <p>Discount : {{ product.discount + discount }} %</p>
+          <!-- <p *ngIf="product.discount" [ngStyle]="{'text-decoration':'line-through'}">Price: ${{ product.price }}</p>
+          <p *ngIf="!product.discount">Price: ${{ product.price }}</p> -->
+          <p [style.text-decoration]="product.discount ? 'line-through' : ''">Price : ${{product.price}}</p>
+          <p *ngIf="product.discount">Price: ${{ (product.price - (product.price * product.discount/100) - (product.price * discount/100)).toFixed(2) }}</p>
+          <p>{{ product.description }}</p>
+        </li>
+      </ul>
+
+    </ion-row>
+  </div>
+</ion-content>

@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>setting</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title size="large">setting</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <div id="content">
+    <ion-row>
+      <ion-input label="Masukkan URL : " [(ngModel)]="imgSetting"></ion-input>
+    </ion-row>
+    <ion-row>
+      <ion-img *ngIf="imgSetting" [src]="imgSetting"></ion-img>
+    </ion-row>
+
+    <ion-row>
+
+      <ion-input (keyup)="checkPassword()" label="Masukkan Password : " [(ngModel)]="txtPassword"></ion-input>
+      <ion-list>
+        <ion-item>
+          <ion-checkbox [checked]="cbPassword" labelPlacement="end">More than 6 Characters</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox [checked]="cbNumber" labelPlacement="end">Include Number</ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-checkbox [checked]="cbSymbol" labelPlacement="end">Incluce Special Character (!@#$%^&*)</ion-checkbox>
+        </ion-item>
+      </ion-list>
+
+    </ion-row>
+  </div>
+</ion-content>
