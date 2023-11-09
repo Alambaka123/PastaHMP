@@ -8,6 +8,8 @@ import { FoodserviceService } from '../foodservice.service';
 })
 export class PastaPage implements OnInit {
 
+  txtSearch = ""
+
   
 
   jenistampilan = "accordion"
@@ -19,7 +21,27 @@ export class PastaPage implements OnInit {
     }
     return result;
   }
+
+  deletePasta(id:number){
+    this.foodservice.deletePasta(id).subscribe(
+      (response:any)=>{
+        if(response.result == 'success'){
+          alert("success!")
+          this.foodservice.pastaList().subscribe(
+            (data)=> {
+               this.pastas=data;
+             }
+           );
+   
+        }
+        else{
+          alert(response.message)
+        }
+      }
+    )
+  }
   pastas:any[]=[]
+  filteredPastas: any[] = []
 
 
 
@@ -27,7 +49,19 @@ export class PastaPage implements OnInit {
   constructor(private foodservice:FoodserviceService) { }
 
   ngOnInit() {
-    this.pastas = this.foodservice.pastas;
+    //this.pastas = this.foodservice.pastas;
+    this.foodservice.pastaList().subscribe(
+      (data) => {
+        this.pastas = data
+        this.filteredPastas = data
+      }
+    );
+  }
+
+  SearchPasta(){
+    this.filteredPastas = this.pastas.filter((pasta) => {
+      return pasta.name.toLowerCase().includes(this.txtSearch.toLowerCase());
+    });
   }
 
 }

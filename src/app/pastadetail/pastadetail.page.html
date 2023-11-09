@@ -19,17 +19,40 @@
 
   <div id="content">
     <ion-card>
-      <img [src]="pastas[index].url" />
+      <img [src]="pastas.url" />
       <ion-card-header>
-        <ion-card-title>{{pastas[index].name}}</ion-card-title>
+        <ion-card-title>{{pastas.name}}</ion-card-title>
         <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
       </ion-card-header>
       <ion-card-content>
         <ion-list>
-          <ion-item>{{pastas[index].description}}</ion-item>
-          <ion-item>Price : {{pastas[index].price}}</ion-item>
+          <ion-item>{{pastas.description}}</ion-item>
+          <ion-item>Price : {{pastas.price}}</ion-item>
+          <ion-label>
+            Pasta Recipe Instructions:
+          </ion-label>
+          <ol>
+            <li *ngFor="let ins of pastas.instructions">
+              {{ins.instruction}}
+            </li>
+          </ol>
         </ion-list>
       </ion-card-content>
     </ion-card>
+    <ion-item>
+      Add New Instruction
+    </ion-item>
+    <ion-item>
+      <ion-input label="Step No. {{new_step}}" [disabled]="true"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea label="Instruction" placeholder="Type instruction here" [(ngModel)]="new_instruction"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-button id="btnSubmit" (click) = "AddInstruction()">Add</ion-button>
+      <ion-alert trigger="btnSubmit" header="Instruction" message="Data has been successfully stored" 
+      [buttons]="alertButton"></ion-alert>
+    </ion-item>
+
   </div>
 </ion-content>

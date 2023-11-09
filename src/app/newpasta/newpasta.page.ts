@@ -20,20 +20,22 @@ export class NewpastaPage implements OnInit {
   constructor(private foodservice:FoodserviceService, private router:Router) { }
 
   ngOnInit() {
-    this.arr_price = this.generateNumberOptions(30000, 50000, 2000)
+    this.arr_price = this.foodservice.generateNumberOptions(30000, 50000, 2000)
   }
 
-  generateNumberOptions(start: number, end: number, step: number): number[] {
-    const options: number[] = [];
-    for (let i = start; i <= end; i += step) {
-      options.push(i);
-    }
-    return options;
-}
 
 submitpasta()
 {
-    this.foodservice.addPasta(this.new_name, this.new_desc, this.new_price, this.new_url, this.new_spicy)
+    this.foodservice.addPasta(this.new_name, this.new_desc, this.new_price, this.new_url, this.new_spicy).subscribe(
+      (response:any)=>{
+        if(response.result == 'success'){
+          alert('Success!')
+        }
+        else{
+          alert(response.message)
+        }
+      }
+    )
     this.router.navigate(['/pasta'])
     this.new_name = ""
     this.new_desc = ""

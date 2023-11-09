@@ -35,8 +35,9 @@
       <ion-icon slot="start" name="add"></ion-icon>
       New Pasta
     </ion-button>
+    <ion-input (keyup)="SearchPasta()" label="Search : " [(ngModel)]="txtSearch"></ion-input>
     <ion-accordion-group *ngIf="jenistampilan=='accordion'" expand="inset">
-      <ion-accordion *ngFor="let pasta of pastas">
+      <ion-accordion *ngFor="let pasta of filteredPastas">
         <ion-item slot="header" color="light">
           <ion-label>{{pasta.name}}</ion-label>
           <ion-badge *ngIf="pasta.spicy" color="warning">Pedes</ion-badge>
@@ -54,7 +55,7 @@
     </ion-accordion-group>
 
     <div *ngIf="jenistampilan=='card'">
-      <ion-card *ngFor="let pasta of pastas">
+      <ion-card *ngFor="let pasta of filteredPastas">
         <img [src]="pasta.url" />
         <ion-card-header>
           <ion-card-title>{{pasta.name}}</ion-card-title>
@@ -73,16 +74,24 @@
 
     <div *ngIf="jenistampilan=='grid'">
       <ion-grid>
-        <ion-row *ngFor="let pastas2 of chunkArray(pastas, 2); let i = index">
+        <ion-row *ngFor="let pastas2 of chunkArray(filteredPastas, 2); let i = index">
           <ion-col *ngFor="let pasta of pastas2;let i2= index">
             <ion-list>
               <ion-item>
                 <ion-img [src]="pasta.url"></ion-img>
               </ion-item>
-              <ion-item routerLink="/pastadetail/{{(i*2)+i2}}">
+              <ion-item routerLink="/pastadetail/{{pasta.id}}">
                 {{pasta.name}}
+                
               </ion-item>
-              <ion-badge *ngIf="pasta.spicy" color="warning">Pedes</ion-badge>
+              <ion-item>
+                <ion-badge *ngIf="pasta.spicy" color="warning">Pedes</ion-badge>
+              </ion-item>
+              
+              <ion-item>
+                <ion-button routerLink='/editpasta/{{pasta.id}}' color="warning">Update</ion-button>
+                <ion-button (click)="deletePasta(pasta.id)" color="danger">Delete</ion-button>
+              </ion-item>
             </ion-list>
           </ion-col>
         </ion-row>
